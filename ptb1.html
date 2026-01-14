@@ -1,0 +1,27 @@
+<p>ptb1 works!</p>
+<table>
+    <tr>
+        <td>He so a:</td>
+        <td>
+            <input type="text" #hsa>
+        </td>
+    </tr>
+    <tr>
+        <td>He so b:</td>
+        <td>
+            <input type="text" #hsb>
+        </td>
+    </tr>
+    <tr>
+        <td>Result:</td>
+        <td #result id="result"></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <button (click)="get_solution(hsa,hsb,result)">Solution</button>
+            &nbsp;&nbsp;&nbsp;
+            <!-- Khi nhấn vào clear xoá toàn bộ dữ liệu và focus tới ô hệ số a, yêu cầu dùng binding event-->
+            <button (click)="clear_data(hsa,hsb,result)">Clear</button>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="mb-0">Chuyển đổi Dương lịch thành Âm lịch</h3>
+    </div>
+    <div class="card-body">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="day">Ngày</label>
+          <select id="day" [(ngModel)]="selectedDay" name="day">
+            <option *ngFor="let day of days">{{ day }}</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="month">Tháng</label>
+          <select id="month" [(ngModel)]="selectedMonth" name="month">
+            <option *ngFor="let month of months">{{ month }}</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="year">Năm</label>
+          <select id="year" [(ngModel)]="selectedYear" name="year">
+            <option *ngFor="let year of years">{{ year }}</option>
+          </select>
+        </div>
+        <button class="btn-convert" (click)="convertToLunar()">Chuyển đổi</button>
+      </div>
+
+      <div *ngIf="hasConverted && result" class="result-section">
+        <h4>Âm Lịch</h4>
+        <table class="result-table">
+          <tbody>
+            <tr>
+              <td><strong>Thứ trong tuần</strong></td>
+              <td>{{ result.dayOfWeek }}</td>
+            </tr>
+            <tr>
+              <td><strong>Ngày tháng năm âm</strong></td>
+              <td>{{ result.lunarDate }}</td>
+            </tr>
+            <tr>
+              <td><strong>Năm</strong></td>
+              <td>{{ result.yearCN }}</td>
+            </tr>
+            <tr>
+              <td><strong>Tháng</strong></td>
+              <td>{{ result.monthCN }}</td>
+            </tr>
+            <tr>
+              <td><strong>Ngày</strong></td>
+              <td>{{ result.dayCN }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
