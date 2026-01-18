@@ -1,0 +1,41 @@
+.catalog,
+.products {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.catalog th,
+.catalog td,
+.products th,
+.products td {
+  border: 1px solid #666;
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.catalog {
+  background: #f7fbff;
+}
+
+.category-header th {
+  background: #cfe9ff;
+}
+
+.category-row td {
+  background: #ffe3ef;
+}
+
+.products th {
+  background: #d7f5f0;
+}
+
+.products tr:nth-child(even) td {
+  background: #fff5fb;
+}
+
+.products img {
+  width: 60px;
+  height: auto;
+  display: block;
+}
