@@ -1,0 +1,55 @@
+<section class="bpi">
+  <header class="bpi__header">
+    <div>
+      <p class="bpi__eyebrow">Live data</p>
+      <h2 class="bpi__title">Bitcoin Price Index (BPI)</h2>
+      <p class="bpi__subtitle">Source: CoinDesk API (refresh every {{ refreshSeconds }}s)</p>
+    </div>
+    <div class="bpi__status" [class.bpi__status--error]="errorMessage">
+      <ng-container *ngIf="loading">Loading latest price...</ng-container>
+      <ng-container *ngIf="!loading && !errorMessage && lastUpdatedRaw">
+        Updated: {{ lastUpdatedRaw }}
+      </ng-container>
+      <ng-container *ngIf="!loading && !errorMessage && !lastUpdatedRaw">
+        Waiting for data...
+      </ng-container>
+      <ng-container *ngIf="errorMessage">{{ errorMessage }}</ng-container>
+    </div>
+  </header>
+
+  <div class="bpi__table" *ngIf="currencyList.length">
+    <div class="bpi__row bpi__row--head">
+      <div>Currency</div>
+      <div>Code</div>
+      <div>Rate</div>
+      <div>Description</div>
+    </div>
+    <div
+      class="bpi__row"
+      *ngFor="let item of currencyList; trackBy: trackByCode"
+    >
+      <div class="bpi__currency" data-label="Currency">
+        <span class="bpi__symbol" [innerHTML]="symbolHtml(item.code)"></span>
+        <span>{{ item.code }}</span>
+      </div>
+      <div data-label="Code">{{ item.code }}</div>
+      <div class="bpi__rate" data-label="Rate">
+        <span class="bpi__symbol" [innerHTML]="symbolHtml(item.code)"></span>
+        {{ item.rate_float | number: '1.2-2' }}
+      </div>
+      <div class="bpi__desc" data-label="Description">{{ item.description }}</div>
+    </div>
+  </div>
+
+  <div class="bpi__empty" *ngIf="!loading && !currencyList.length && !errorMessage">
+    No data available.
+  </div>
+
+  <p class="bpi__disclaimer" *ngIf="bpiData?.disclaimer">
+    {{ bpiData?.disclaimer }}
+  </p>
+
+  <p class="bpi__timestamp" *ngIf="lastUpdatedIso">
+    Local time: {{ lastUpdatedIso | date: 'medium' }}
+  </p>
+</section>
