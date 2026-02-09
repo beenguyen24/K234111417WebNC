@@ -1,0 +1,295 @@
+<div class="ex50-container">
+  <!-- Header -->
+  <div class="ex50-header">
+    <h1>📚 QUẢN LÝ THÔNG TIN SÁCH</h1>
+    <button class="btn btn-primary" (click)="openCreateModal()" [disabled]="loading">
+      + Create New
+    </button>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
+
+  <!-- Books Table -->
+  <div class="table-responsive" *ngIf="!loading">
+    <table class="books-table">
+      <thead>
+        <tr>
+          <th>Tên Sách</th>
+          <th>Tác Giả</th>
+          <th>Mô Tả</th>
+          <th>Hình Ảnh</th>
+          <th>Ngày Xuất Bản</th>
+          <th>Giá</th>
+          <th>Trang</th>
+          <th>Hành Động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let book of books" class="book-row">
+          <td class="book-title">{{ book.title }}</td>
+          <td>{{ book.author }}</td>
+          <td class="description-cell" title="{{ book.description }}">
+            {{ book.description }}
+          </td>
+          <td class="image-cell">
+            <img
+              [src]="book.image"
+              alt="{{ book.title }}"
+              (error)="onImageError($event)"
+              class="book-thumbnail"
+            />
+          </td>
+          <td>{{ book.publishedDate }}</td>
+          <td class="price">{{ book.price | currency }}</td>
+          <td>{{ book.pages }}</td>
+          <td class="actions">
+            <button
+              class="btn btn-sm btn-info"
+              (click)="openDetailModal(book)"
+              title="View details"
+            >
+              Details
+            </button>
+            <button
+              class="btn btn-sm btn-warning"
+              (click)="openEditModal(book)"
+              title="Edit book"
+            >
+              Edit
+            </button>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="deleteBook(book)"
+              title="Delete book"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Empty State -->
+    <div *ngIf="books.length === 0" class="empty-state">
+      <p>📭 No books found. <a href="javascript:void(0)" (click)="openCreateModal()">Create one now!</a></p>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div *ngIf="showModal" class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <!-- Detail Modal -->
+      <div *ngIf="modalMode === 'detail' && selectedBook" class="modal-detail">
+        <button class="close-btn" (click)="closeModal()">×</button>
+        <h2>📖 Chi Tiết Sách</h2>
+
+        <div class="detail-container">
+          <div class="detail-image">
+            <img
+              [src]="selectedBook.image"
+              [alt]="selectedBook.title"
+              (error)="onImageError($event)"
+            />
+          </div>
+
+          <div class="detail-info">
+            <div class="info-group">
+              <label>Tên Sách:</label>
+              <p>{{ selectedBook.title }}</p>
+            </div>
+
+            <div class="info-group">
+              <label>Tác Giả:</label>
+              <p>{{ selectedBook.author }}</p>
+            </div>
+
+            <div class="info-group">
+              <label>Thể Loại:</label>
+              <p>{{ selectedBook.category }}</p>
+            </div>
+
+            <div class="info-group">
+              <label>Ngày Xuất Bản:</label>
+              <p>{{ selectedBook.publishedDate }}</p>
+            </div>
+
+            <div class="info-group">
+              <label>Số Trang:</label>
+              <p>{{ selectedBook.pages }}</p>
+            </div>
+
+            <div class="info-group">
+              <label>Giá:</label>
+              <p class="price-highlight">{{ selectedBook.price | currency }}</p>
+            </div>
+
+            <div class="info-group">
+              <label>Mô Tả:</label>
+              <p>{{ selectedBook.description }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-warning" (click)="selectedBook && openEditModal(selectedBook)">
+            ✏️ Edit
+          </button>
+          <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+        </div>
+      </div>
+
+      <!-- Create/Edit Modal -->
+      <div *ngIf="modalMode === 'create' || modalMode === 'edit'" class="modal-form">
+        <button class="close-btn" (click)="closeModal()">×</button>
+        <h2 *ngIf="modalMode === 'create'">➕ Thêm Sách Mới</h2>
+        <h2 *ngIf="modalMode === 'edit'">✏️ Chỉnh Sửa Sách</h2>
+
+        <form (ngSubmit)="saveBook()">
+          <div class="form-group">
+            <label for="title">Tên Sách <span class="required">*</span></label>
+            <input
+              id="title"
+              type="text"
+              [(ngModel)]="formBook.title"
+              name="title"
+              placeholder="Nhập tên sách"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="author">Tác Giả <span class="required">*</span></label>
+            <input
+              id="author"
+              type="text"
+              [(ngModel)]="formBook.author"
+              name="author"
+              placeholder="Nhập tên tác giả"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="category">Thể Loại <span class="required">*</span></label>
+            <select
+              id="category"
+              [(ngModel)]="formBook.category"
+              name="category"
+              class="form-control"
+              required
+            >
+              <option value="">-- Chọn Thể Loại --</option>
+              <option *ngFor="let cat of categories" [value]="cat">
+                {{ cat }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="price">Giá <span class="required">*</span></label>
+              <input
+                id="price"
+                type="number"
+                [(ngModel)]="formBook.price"
+                name="price"
+                placeholder="Nhập giá"
+                class="form-control"
+                min="0"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="pages">Số Trang <span class="required">*</span></label>
+              <input
+                id="pages"
+                type="number"
+                [(ngModel)]="formBook.pages"
+                name="pages"
+                placeholder="Nhập số trang"
+                class="form-control"
+                min="1"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="publishedDate">Ngày Xuất Bản <span class="required">*</span></label>
+            <input
+              id="publishedDate"
+              type="date"
+              [(ngModel)]="formBook.publishedDate"
+              name="publishedDate"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="image">Link Hình Ảnh <span class="required">*</span></label>
+            <input
+              id="image"
+              type="text"
+              [(ngModel)]="formBook.image"
+              name="image"
+              placeholder="Nhập URL hình ảnh"
+              class="form-control"
+              required
+            />
+            <small *ngIf="formBook.image" class="image-preview">
+              <img [src]="formBook.image" alt="Preview" (error)="onImageError($event)" />
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Mô Tả <span class="required">*</span></label>
+            <textarea
+              id="description"
+              [(ngModel)]="formBook.description"
+              name="description"
+              placeholder="Nhập mô tả sách"
+              class="form-control"
+              rows="4"
+              required
+            ></textarea>
+          </div>
+
+          <div *ngIf="error" class="alert alert-danger">
+            {{ error }}
+          </div>
+
+          <div class="modal-actions">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="loading"
+            >
+              {{ loading ? 'Đang lưu...' : (modalMode === 'create' ? 'Create' : 'Update') }}
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              (click)="closeModal()"
+              [disabled]="loading"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

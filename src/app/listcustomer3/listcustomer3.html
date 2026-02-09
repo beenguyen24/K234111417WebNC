@@ -1,0 +1,23 @@
+<h2>Trang thai khach hang</h2>
+<table class="customer-table">
+  <thead>
+    <tr>
+      <th>Ma KH</th>
+      <th>Ten KH</th>
+      <th>Dien thoai</th>
+      <th>Trang thai</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let c of customers">
+      <td>{{ c.id }}</td>
+      <td>{{ c.name }}</td>
+      <td>{{ c.phone }}</td>
+      <td>
+        <span [class.active]="c.active" [class.inactive]="!c.active">
+          {{ c.active ? 'Dang hoat dong' : 'Tam ngung' }}
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</table>

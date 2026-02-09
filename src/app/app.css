@@ -1,3 +1,91 @@
-.h1{
+*{
+ margin:0;
+ padding:0;
+}
+#container
+{ border:1px solid blue;
+background:gray;
+float:left;
+top: 60px;
+text-indent:0px;
+width: 100%;
+}
+#container ul{
+float:left;
+list-style:none
+}
+#container ul li{
+position:relative;
+float:left;
+}
+#container ul li a
+{
+display:block;
+color:black;
+font-weight:bold;
+text-decoration:none;
+padding:.3em 6px;
+}
+#container li a:hover
+{color:white;
+background:orange;
+}
+#container li ul
+{position:absolute;
+display:none;
+width:10em
+}
+#container li:hover ul {
+ display:block;
+}
+#container ul li ul li{
+ width:100%;
+ border:1px solid green
+}
 
+/* Navigation Buttons */
+.exercise-19 {
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.exercise-19 table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.exercise-19 td {
+  padding: 5px;
+}
+
+.nav-button {
+  padding: 8px 16px;
+  background-color: #e0e0e0;
+  border: 1px solid #999;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  width: 100%;
+  min-height: 32px;
+}
+
+.nav-button:hover {
+  background-color: #d0d0d0;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.nav-button:active {
+  transform: translateY(0);
+}
+
+.ex50-button {
+  background-color: #667eea;
+  color: white;
+  border-color: #5568d3;
+}
+
+.ex50-button:hover {
+  background-color: #5568d3;
 }

@@ -1,0 +1,25 @@
+.customer-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.customer-table th,
+.customer-table td {
+  border: 1px solid #cfcfcf;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.customer-table thead {
+  background: #eef6ff;
+}
+
+.active {
+  color: #1a7f37;
+  font-weight: 600;
+}
+
+.inactive {
+  color: #b42318;
+  font-weight: 600;
+}

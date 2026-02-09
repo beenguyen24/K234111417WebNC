@@ -1,0 +1,19 @@
+<h2>Khach hang VIP</h2>
+<table class="customer-table">
+  <thead>
+    <tr>
+      <th>Ma KH</th>
+      <th>Ten KH</th>
+      <th>So don</th>
+      <th>Tong chi tieu</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let c of vipCustomers">
+      <td>{{ c.id }}</td>
+      <td>{{ c.name }}</td>
+      <td>{{ c.totalOrders }}</td>
+      <td>{{ c.totalSpent }}</td>
+    </tr>
+  </tbody>
+</table>

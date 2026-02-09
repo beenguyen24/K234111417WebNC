@@ -12,6 +12,7 @@ import { ServiceProductImageEventDetailComponent } from './service-product-image
 import { ProductComponent } from './ex19/product/product';
 import { ListProductComponent } from './ex19/list-product/list-product';
 import { ServiceProductComponent } from './ex19/service-product/service-product';
+import { Ex50 } from './ex50/ex50';
 
 const routes: Routes = [
   { path: 'gioi-thieu', component: About },
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'service-product', component: ServiceProductComponent },
   { path: 'service-product-image-event', component: ServiceProductImageEventComponent },
   { path: 'service-product-image-event/:id', component: ServiceProductImageEventDetailComponent },
+  { path: 'ex50', component: Ex50 },
   { path: '**', component: Notfound },
 ];
 

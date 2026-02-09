@@ -1,20 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TemplateForm } from './template-form';
+import { Ex50 } from './ex50';
 
-describe('TemplateForm', () => {
-  let component: TemplateForm;
-  let fixture: ComponentFixture<TemplateForm>;
+describe('Ex50', () => {
+  let component: Ex50;
+  let fixture: ComponentFixture<Ex50>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TemplateForm]
+      declarations: [ Ex50 ]
     })
     .compileComponents();
+  });
 
-    fixture = TestBed.createComponent(TemplateForm);
+  beforeEach(() => {
+    fixture = TestBed.createComponent(Ex50);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   it('should create', () => {
