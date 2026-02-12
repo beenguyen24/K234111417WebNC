@@ -14,6 +14,7 @@ export class Ex50 implements OnInit {
   showModal = false;
   modalMode: 'create' | 'edit' | 'detail' = 'create';
   loading = false;
+  detailLoading = false;
   error = '';
 
   // Form data for create/edit
@@ -85,13 +86,28 @@ export class Ex50 implements OnInit {
 
   openDetailModal(book: Book): void {
     this.modalMode = 'detail';
-    this.selectedBook = book;
+    this.selectedBook = null;
     this.showModal = true;
+    this.detailLoading = true;
+    this.error = '';
+
+    this.bookService.getBookById(book.id).subscribe(
+      (data) => {
+        this.selectedBook = data;
+        this.detailLoading = false;
+      },
+      (err) => {
+        this.error = 'Failed to load book details. Please try again.';
+        this.detailLoading = false;
+        console.error(err);
+      }
+    );
   }
 
   closeModal(): void {
     this.showModal = false;
     this.selectedBook = null;
+    this.detailLoading = false;
     this.error = '';
   }
 
@@ -185,6 +201,40 @@ export class Ex50 implements OnInit {
 
   onImageLoad(event: any): void {
     // Handle image loading errors if needed
+  }
+
+  onImageFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      this.error = 'Please select a valid image file.';
+      input.value = '';
+      return;
+    }
+
+    const maxSizeInBytes = 2 * 1024 * 1024;
+    if (file.size > maxSizeInBytes) {
+      this.error = 'Image size must be less than or equal to 2MB.';
+      input.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        this.formBook.image = reader.result;
+        this.error = '';
+      }
+    };
+    reader.onerror = () => {
+      this.error = 'Failed to process selected image.';
+    };
+    reader.readAsDataURL(file);
   }
 
   onImageError(event: any): void {

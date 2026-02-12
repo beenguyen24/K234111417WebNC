@@ -9,7 +9,7 @@ This exercise implements a complete Book Management System with a modern UI/UX u
 - ✏️ **Edit Books**: Modify existing book information
 - 📖 **View Details**: See complete book information in a detail view
 - 🗑️ **Delete Books**: Remove books with confirmation
-- 🖼️ **Image Handling**: Display book images with fallback for broken links
+- 🖼️ **Image Handling**: Display book images with fallback, support URL or local file upload (processed to Base64)
 - 📱 **Responsive Design**: Works on desktop, tablet, and mobile devices
 - 🎨 **Modern UI/UX**: Clean, intuitive interface with smooth animations
 
@@ -57,6 +57,7 @@ Each book contains the following information:
   ...
 }
 ```
+**Usage in UI**: Button `Details` calls this endpoint to load latest detail data by `id`.
 
 ### 3. CREATE Book
 **Endpoint**: `POST /api/books`
@@ -124,6 +125,7 @@ Navigate to: `http://localhost:4200/ex50`
 ### Create Book Modal
 - Form with fields for all book attributes
 - Image preview before submission
+- Accept both image URL and local image file (client-side processing)
 - Form validation
 - Cancel and Create buttons
 
@@ -146,7 +148,7 @@ All required fields must be filled:
 - Description (non-empty string)
 - Category (must select from dropdown)
 - Price (must be greater than 0)
-- Image (valid URL)
+- Image (URL or processed local image data)
 - Published Date (valid date)
 - Pages (must be greater than 0)
 
@@ -195,7 +197,7 @@ server/
 ✅ Modern UI/UX design
 
 ## Notes
-- Images are loaded from external URLs
+- Images can come from external URLs or local file upload (converted client-side)
 - If an image fails to load, a placeholder is displayed
 - Prices are displayed in Vietnamese Dong (VND)
 - Dates are in YYYY-MM-DD format
