@@ -13,6 +13,8 @@ import { ProductComponent } from './ex19/product/product';
 import { ListProductComponent } from './ex19/list-product/list-product';
 import { ServiceProductComponent } from './ex19/service-product/service-product';
 import { Ex50 } from './ex50/ex50';
+import { PaymentComponent } from './payment/payment.component';
+import { PaymentResultComponent } from './payment-result/payment-result.component';
 
 const routes: Routes = [
   { path: 'gioi-thieu', component: About },
@@ -27,6 +29,8 @@ const routes: Routes = [
   { path: 'service-product-image-event', component: ServiceProductImageEventComponent },
   { path: 'service-product-image-event/:id', component: ServiceProductImageEventDetailComponent },
   { path: 'ex50', component: Ex50 },
+  { path: 'payment', component: PaymentComponent },
+  { path: 'payment-result', component: PaymentResultComponent },
   { path: '**', component: Notfound },
 ];
 
